@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
+
+  // Relação inversa: um usuário pode ter várias compras
+  purchases Purchase[]
+}
+
+model Event {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  date        DateTime
+  location    String
+  price       Float
+
+  // Relação inversa: um evento pode ter várias compras
+  purchases   Purchase[]
+}
+
+model Purchase {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+  createdAt DateTime @default(now())
+}
