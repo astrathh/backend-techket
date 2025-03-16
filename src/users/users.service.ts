@@ -16,4 +16,30 @@ export class UsersService {
     });
     return user;
   }
+
+  async login(email: string, password: string) {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      return user;
+    }
+    throw new Error('Invalid email or password');
+  }
+
+  async update(
+    userId: number,
+    updateData: { email?: string; password?: string },
+  ) {
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+    });
+    return user;
+  }
+
+  async delete(userId: number) {
+    await prisma.user.delete({ where: { id: userId } });
+  }
 }

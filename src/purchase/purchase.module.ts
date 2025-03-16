@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { PurchaseService } from './purchase.service';
 
-@Module({})
+@Module({
+  providers: [PurchaseService],
+  exports: [PurchaseService],
+})
 export class PurchaseModule {}
