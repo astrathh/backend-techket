@@ -1,29 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import * as bcrypt from 'bcryptjs';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { LoginUserDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private jwtService: JwtService,
-    private usersService: UsersService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async register(createUserDto: any) {
-    // Lógica de registro de usuário
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    return this.usersService.create({ ...createUserDto, password: hashedPassword });
-    }
+  async register(createUserDto: CreateUserDto) {
+    const user = await this.usersService.create(createUserDto);
+    return user;
+  }
 
-  async login(loginDto: { email: string; password: string }) {
-    const user = await this.usersService.findByEmail(loginDto.email);
-    if (user && (await bcrypt.compare(loginDto.password, user.password))) {
-      const payload = { email: user.email, sub: user.id };
-      return {
-        access_token: this.jwtService.sign(payload),
-      };
+  async login(loginUserDto: LoginUserDto) {
+    const user = await this.usersService.validateUser(
+      loginUserDto.email,
+      loginUserDto.password,
+    );
+    if (!user) {
+      throw new Error('Invalid credentials');
     }
-    throw new Error('Credenciais inválidas');
+    const payload = { email: user.email, sub: user.id };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

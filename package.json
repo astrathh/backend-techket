@@ -2,6 +2,7 @@
   "name": "backend-techket",
   "version": "0.0.1",
   "description": "",
+  "main": "dist/main.js",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

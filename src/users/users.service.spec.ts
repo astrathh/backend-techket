@@ -29,6 +29,9 @@ describe('UsersService', () => {
     const user = await service.create({
       email: 'test@example.com',
       password: '123456',
+      firstName: 'Test',
+      lastName: 'User',
+      agreeToTerms: true,
     });
     expect(user).toHaveProperty('email', 'test@example.com');
   });
@@ -39,7 +42,12 @@ describe('UsersService', () => {
       password: 'password123',
     };
 
-    await service.create(userData);
+    await service.create({
+      ...userData,
+      firstName: 'Login',
+      lastName: 'User',
+      agreeToTerms: true,
+    });
 
     let user: { email: string } | null;
     try {
@@ -60,7 +68,12 @@ describe('UsersService', () => {
       password: 'password123',
     };
 
-    const user = await service.create(userData);
+    const user = await service.create({
+      ...userData,
+      firstName: 'Update',
+      lastName: 'User',
+      agreeToTerms: true,
+    });
 
     const updatedUser = await service.update(user.id, {
       email: 'updated@example.com',

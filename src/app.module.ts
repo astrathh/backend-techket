@@ -1,25 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from '../src/auth/auth.module';
-import { UsersModule } from '../src/users/users.module';
-import { EventsModule } from '../src/events/events.module';
-import { PurchaseModule } from '../src/purchase/purchase.module';
-import { ConfigModule } from '@nestjs/config';
-import jwtConfig from './config/jwt.config';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { EventsModule } from './events/events.module';
+import { PurchaseModule } from './purchase/purchase.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [jwtConfig],
-    }),
-    AuthModule,
-    UsersModule,
-    EventsModule,
-    PurchaseModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [AuthModule, UsersModule, EventsModule, PurchaseModule],
 })
 export class AppModule {}

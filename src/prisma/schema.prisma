@@ -9,9 +9,14 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  password  String
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  password    String
+  firstName   String    
+  lastName    String    
+  agreeToTerms Boolean  @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   purchases Purchase[]
   cart      Cart[]
 }

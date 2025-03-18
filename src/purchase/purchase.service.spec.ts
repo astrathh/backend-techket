@@ -31,6 +31,9 @@ describe('PurchaseService', () => {
       data: {
         email: 'test@example.com',
         password: '123456',
+        firstName: 'Test',
+        lastName: 'User',
+        agreeToTerms: true,
       },
     });
 
@@ -54,6 +57,9 @@ describe('PurchaseService', () => {
       data: {
         email: 'test@example.com',
         password: '123456',
+        firstName: 'Test',
+        lastName: 'User',
+        agreeToTerms: true,
       },
     });
 
@@ -77,6 +83,9 @@ describe('PurchaseService', () => {
       data: {
         email: 'test@example.com',
         password: '123456',
+        firstName: 'Test',
+        lastName: 'User',
+        agreeToTerms: true,
       },
     });
 
@@ -101,6 +110,9 @@ describe('PurchaseService', () => {
       data: {
         email: 'test@example.com',
         password: '123456',
+        firstName: 'Test',
+        lastName: 'User',
+        agreeToTerms: true,
       },
     });
 
